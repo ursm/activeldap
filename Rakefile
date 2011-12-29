@@ -4,9 +4,8 @@ require 'thread'
 require 'find'
 
 require 'rubygems'
-require 'bundler/setup'
+require "bundler/gem_tasks"
 
-require 'jeweler'
 require 'rake/testtask'
 require "rake/clean"
 require "yard"
@@ -21,39 +20,8 @@ project_name = "ActiveLdap"
 
 ENV["VERSION"] ||= ActiveLdap::VERSION
 version = ENV["VERSION"]
-spec = nil
-Jeweler::Tasks.new do |_spec|
-  spec = _spec
-  spec.name = 'activeldap'
-  spec.version = version.dup
-  spec.rubyforge_project = 'ruby-activeldap'
-  spec.authors = ['Will Drewry', 'Kouhei Sutou']
-  spec.email = ['redpig@dataspill.org', 'kou@cozmixng.org']
-  spec.summary = 'ActiveLdap is a object-oriented API to LDAP'
-  spec.homepage = 'http://ruby-activeldap.rubyforge.org/'
-  spec.files = FileList["lib/**/*",
-                        "{benchmark,examples,po}/**/*",
-                        "bin/*",
-                        "doc/text/**/*",
-                        "COPYING",
-                        "Gemfile",
-                        "LICENSE",
-                        "README.textile",
-                        "TODO"]
-  spec.test_files = FileList['test/test_*.rb']
-  spec.description = <<-EOF
-    'ActiveLdap' is a ruby library which provides a clean
-    objected oriented interface to the Ruby/LDAP library.  It was inspired
-    by ActiveRecord. This is not nearly as clean or as flexible as
-    ActiveRecord, but it is still trivial to define new objects and manipulate
-    them with minimal difficulty.
-  EOF
-  spec.license = "Ruby's or GPLv2 or later"
-end
 
-Rake::Task["release"].prerequisites.clear
-Jeweler::RubygemsDotOrgTasks.new do
-end
+spec = Bundler.load_gemspec(File.expand_path('../activeldap.gemspec', __FILE__))
 
 Rake::TestTask.new(:test) do |test|
   test.libs << "lib"
